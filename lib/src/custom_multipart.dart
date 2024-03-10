@@ -2,8 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 
-//No Idea why i am getting this warning
-// ignore: depend_on_referenced_packages
+
 import 'package:http_parser/http_parser.dart';
 
 class CustomMultipart {
