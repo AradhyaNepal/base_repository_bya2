@@ -6,7 +6,8 @@ import 'package:dio/dio.dart';
 import 'package:http_parser/http_parser.dart';
 
 class CustomMultipart {
-  static Future<Object> parseBody(
+  ///Never forgot to await, else errors like Multipart: Boundary not found might come
+  static Future<Object> awaitParseBody(
     Map<String, dynamic> data, {
     bool removeNull = true,
   }) async {
