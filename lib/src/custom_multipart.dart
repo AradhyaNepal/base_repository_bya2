@@ -31,7 +31,7 @@ class CustomMultipart {
         mapEntry.key: await MultipartFile.fromFile(
           fileToUpload.path,
           filename: fileName,
-          contentType:MediaType("images", fileName.split(".").last),
+          contentType:MediaType("image", fileName.split(".").last),
         )
       };
     }
