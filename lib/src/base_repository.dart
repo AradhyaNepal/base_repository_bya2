@@ -160,13 +160,14 @@ class BaseRepository {
     }
   }
 
-  Future<T> patch<T>(
-    RequestInput<T> input,
-  ) async {
+  Future<T> patch<T>(RequestInput<T> input, {bool isMultipart = false}) async {
     try {
       final repositoryDetails =
           input.repositoryDetails ?? _globalRepositoryDetails;
-      final heading = await _getHeading(repositoryDetails.tokenNeeded);
+      final heading = await _getHeading(
+        repositoryDetails.tokenNeeded,
+        isMultipart: isMultipart,
+      );
       final response = await _client
           .patch(
             input.url,
