@@ -7,7 +7,7 @@ import 'request_input.dart';
 import 'api_exception.dart';
 import 'base_repository_setup.dart';
 
-class BaseRepository {
+final class BaseRepository {
   final Dio _client;
 
   static Dio get staticDio => Dio();
