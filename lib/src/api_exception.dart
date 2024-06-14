@@ -1,7 +1,8 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'base_repository_setup.dart';
+
+import '../export.dart';
 
 class CustomAPIException implements Exception {
   String errorMessage;
@@ -34,8 +35,7 @@ class CustomAPIException implements Exception {
 
   factory CustomAPIException.onCatch(Object e, StackTrace s) {
     if (e is DioException) {
-
-      final errorMessage = e.response?.data?["message"];
+      final errorMessage = BaseRepositorySetup.onErrorMapper(e.response?.data);
       if (errorMessage != null) {
         return CustomAPIException(
           errorMessage,

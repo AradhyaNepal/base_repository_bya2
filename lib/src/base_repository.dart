@@ -1,11 +1,10 @@
 import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'repository_details.dart';
-import 'app_interceptor.dart';
-import 'request_input.dart';
-import 'api_exception.dart';
-import 'base_repository_setup.dart';
+import '../export.dart';
+
+
+
 
 final class BaseRepository {
   final Dio _client;
@@ -235,7 +234,7 @@ final class BaseRepository {
     return {
       'Content-Type': 'application/json',
       'Accept': '*/*',
-      if (needToken) 'Authorization': 'Bearer ${BaseRepositorySetup.token()}',
+      if (needToken) 'Authorization': 'Bearer ${BaseRepositorySetup.tokenMapper()}',
       if (isMultipart) 'Content-Type': 'multipart/form-data'
     };
   }
