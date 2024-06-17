@@ -234,6 +234,7 @@ final class BaseRepository {
     return {
       'Content-Type': 'application/json',
       'Accept': '*/*',
+      ...?BaseRepositorySetup.extraHeader,
       if (needToken) 'Authorization': 'Bearer ${BaseRepositorySetup.tokenMapper()}',
       if (isMultipart) 'Content-Type': 'multipart/form-data'
     };

@@ -39,6 +39,10 @@ class BaseRepositorySetup {
 
   static ErrorMapper get onErrorMapper => _onErrorMapper;
 
+  static Map? _extraHeader = null;
+
+  static Map? get extraHeader => _extraHeader;
+
   static void init({
     required StringReturnMethod errorWithMobileOnApiRequest,
     required StringReturnMethod errorWithApiOnApiRequest,
@@ -46,6 +50,7 @@ class BaseRepositorySetup {
     required OnErrorHandleTokenExpiry onErrorHandleTokenExpiry,
     required OnResponseInterceptor onResponseInterceptor,
     required ErrorMapper onErrorMapper,
+    Map? extraHeader,
   }) {
     BaseRepositorySetup._errorWithMobileOnApiRequest =
         errorWithMobileOnApiRequest;
@@ -54,5 +59,6 @@ class BaseRepositorySetup {
     BaseRepositorySetup._onErrorHandleTokenExpiry = onErrorHandleTokenExpiry;
     BaseRepositorySetup._onResponseInterceptor = onResponseInterceptor;
     BaseRepositorySetup._onErrorMapper = onErrorMapper;
+    _extraHeader = extraHeader;
   }
 }
