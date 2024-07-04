@@ -27,14 +27,20 @@ class CustomAPIException implements Exception {
   factory CustomAPIException.onParsing(Object e, StackTrace s) {
     log(e.toString());
     log(s.toString());
-    return CustomAPIException(
-      BaseRepositorySetup.errorWithMobileOnApiRequest(),
-      null,
-    );
+    if (e is CustomAPIException) {
+      return e;
+    } else {
+      return CustomAPIException(
+        BaseRepositorySetup.errorWithMobileOnApiRequest(),
+        null,
+      );
+    }
   }
 
   factory CustomAPIException.onCatch(Object e, StackTrace s) {
-    if (e is DioException) {
+    if (e is CustomAPIException) {
+      return e;
+    } else if (e is DioException) {
       final errorMessage = BaseRepositorySetup.onErrorMapper(e.response?.data);
       if (errorMessage != null) {
         return CustomAPIException(
