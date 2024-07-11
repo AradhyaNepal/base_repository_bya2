@@ -4,6 +4,8 @@ typedef StringReturnMethod = String Function();
 typedef OnErrorHandleTokenExpiry = Function(DioException error);
 typedef OnResponseInterceptor = Function(Response response);
 typedef ErrorMapper = String? Function(dynamic response);
+typedef OnParsingException = void Function(
+    Object exception, StackTrace stackTrace);
 
 class BaseRepositorySetup {
   static StringReturnMethod _errorWithMobileOnApiRequest =
@@ -28,6 +30,8 @@ class BaseRepositorySetup {
   static OnErrorHandleTokenExpiry get onErrorHandleTokenExpiry =>
       _onErrorHandleTokenExpiry;
 
+  static OnParsingException _onParsingException = (e, s) {};
+  static OnParsingException get onParsingException =>_onParsingException;
   static OnResponseInterceptor _onResponseInterceptor = (response) {};
 
   static OnResponseInterceptor get onResponseInterceptor =>
@@ -50,6 +54,7 @@ class BaseRepositorySetup {
     required OnErrorHandleTokenExpiry onErrorHandleTokenExpiry,
     required OnResponseInterceptor onResponseInterceptor,
     required ErrorMapper onErrorMapper,
+    required OnParsingException onParsingException,
     Map? extraHeader,
   }) {
     BaseRepositorySetup._errorWithMobileOnApiRequest =
@@ -59,6 +64,7 @@ class BaseRepositorySetup {
     BaseRepositorySetup._onErrorHandleTokenExpiry = onErrorHandleTokenExpiry;
     BaseRepositorySetup._onResponseInterceptor = onResponseInterceptor;
     BaseRepositorySetup._onErrorMapper = onErrorMapper;
+    BaseRepositorySetup._onParsingException = onParsingException;
     _extraHeader = extraHeader;
   }
 }

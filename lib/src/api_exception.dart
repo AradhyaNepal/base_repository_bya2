@@ -30,43 +30,50 @@ class CustomAPIException implements Exception {
     if (e is CustomAPIException) {
       return e;
     } else {
-      return CustomAPIException(
+      final value = CustomAPIException(
         BaseRepositorySetup.errorWithMobileOnApiRequest(),
         null,
       );
+      BaseRepositorySetup.onParsingException(e, s);
+      return value;
     }
   }
 
   factory CustomAPIException.onCatch(Object e, StackTrace s) {
-    if (e is CustomAPIException) {
-      return e;
-    } else if (e is DioException) {
-      final errorMessage = BaseRepositorySetup.onErrorMapper(e.response?.data);
-      if (errorMessage != null) {
+    try {
+      if (e is CustomAPIException) {
+        return e;
+      } else if (e is DioException) {
+        final errorMessage =
+            BaseRepositorySetup.onErrorMapper(e.response?.data);
+        if (errorMessage != null) {
+          return CustomAPIException(
+            errorMessage,
+            e.response,
+            originalErrorObject: e,
+            stackTrace: s,
+          );
+        }
+        log(e.toString());
+        log(s.toString());
         return CustomAPIException(
-          errorMessage,
+          BaseRepositorySetup.errorWithApiOnApiRequest(),
           e.response,
           originalErrorObject: e,
           stackTrace: s,
         );
+      } else {
+        log(e.toString());
+        log(s.toString());
+        return CustomAPIException(
+          BaseRepositorySetup.errorWithMobileOnApiRequest(),
+          null,
+          originalErrorObject: e,
+          stackTrace: s,
+        );
       }
-      log(e.toString());
-      log(s.toString());
-      return CustomAPIException(
-        BaseRepositorySetup.errorWithApiOnApiRequest(),
-        e.response,
-        originalErrorObject: e,
-        stackTrace: s,
-      );
-    } else {
-      log(e.toString());
-      log(s.toString());
-      return CustomAPIException(
-        BaseRepositorySetup.errorWithMobileOnApiRequest(),
-        null,
-        originalErrorObject: e,
-        stackTrace: s,
-      );
+    } catch (e, s) {
+      return CustomAPIException.onParsing(e, s);
     }
   }
 }
