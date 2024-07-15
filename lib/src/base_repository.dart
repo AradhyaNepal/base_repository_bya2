@@ -1,10 +1,7 @@
 import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import '../export.dart';
-
-
-
+import '../base_repository_bya2.dart';
 
 final class BaseRepository {
   final Dio _client;
@@ -65,8 +62,7 @@ final class BaseRepository {
             ),
           )
           .timeout(Duration(seconds: repositoryDetails.requestTimeout));
-      final outputJson = repositoryDetails.responseManipulate(response.data);
-      return input.parseJson(outputJson);
+      return _parseAndReturn(repositoryDetails, response, input);
     } catch (e, s) {
       throw CustomAPIException.onCatch(e, s);
     }
@@ -94,8 +90,7 @@ final class BaseRepository {
             ),
           )
           .timeout(Duration(seconds: repositoryDetails.requestTimeout));
-      final outputJson = repositoryDetails.responseManipulate(response.data);
-      return input.parseJson(outputJson);
+      return _parseAndReturn(repositoryDetails, response, input);
     } catch (e, s) {
       throw CustomAPIException.onCatch(e, s);
     }
@@ -123,8 +118,7 @@ final class BaseRepository {
             ),
           )
           .timeout(Duration(seconds: repositoryDetails.requestTimeout));
-      final outputJson = repositoryDetails.responseManipulate(response.data);
-      return input.parseJson(outputJson);
+      return _parseAndReturn(repositoryDetails, response, input);
     } catch (e, s) {
       throw CustomAPIException.onCatch(e, s);
     }
@@ -152,8 +146,7 @@ final class BaseRepository {
             ),
           )
           .timeout(Duration(seconds: repositoryDetails.requestTimeout));
-      final outputJson = repositoryDetails.responseManipulate(response.data);
-      return input.parseJson(outputJson);
+      return _parseAndReturn(repositoryDetails, response, input);
     } catch (e, s) {
       throw CustomAPIException.onCatch(e, s);
     }
@@ -235,7 +228,8 @@ final class BaseRepository {
       'Content-Type': 'application/json',
       'Accept': '*/*',
       ...?BaseRepositorySetup.extraHeader,
-      if (needToken) 'Authorization': 'Bearer ${BaseRepositorySetup.tokenMapper()}',
+      if (needToken)
+        'Authorization': 'Bearer ${BaseRepositorySetup.tokenMapper()}',
       if (isMultipart) 'Content-Type': 'multipart/form-data'
     };
   }

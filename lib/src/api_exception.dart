@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 
-import '../export.dart';
+import '../base_repository_bya2.dart';
 
 class CustomAPIException implements Exception {
   String errorMessage;
@@ -27,6 +27,7 @@ class CustomAPIException implements Exception {
   factory CustomAPIException.onParsing(Object e, StackTrace s) {
     log(e.toString());
     log(s.toString());
+    BaseRepositorySetup.onParsingException(e, s);
     if (e is CustomAPIException) {
       return e;
     } else {
@@ -34,7 +35,7 @@ class CustomAPIException implements Exception {
         BaseRepositorySetup.errorWithMobileOnApiRequest(),
         null,
       );
-      BaseRepositorySetup.onParsingException(e, s);
+
       return value;
     }
   }
